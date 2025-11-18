@@ -1,0 +1,18 @@
+# GPU Server - LLM API 서버용 패키지
+# 최소한의 의존성만 포함
+
+# FastAPI 및 웹 프레임워크
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# HTTP 클라이언트
+httpx
+
+# 유틸리티
+python-dotenv
+
+# Ollama (선택사항 - 로컬 테스트용)
+# ollama
+
