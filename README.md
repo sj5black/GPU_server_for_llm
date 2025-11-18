@@ -54,7 +54,7 @@ curl http://localhost:11435/health
 
 ## 자세한 문서
 
-전체 가이드는 [GPU_SERVER_SETUP.md](../GPU_SERVER_SETUP.md)를 참조하세요.
+전체 가이드는 [GPU_SERVER_SETUP.md](./GUIDELINE/GPU_SERVER_SETUP.md)를 참조하세요.
 
 ## 구조
 
@@ -74,5 +74,5 @@ gpu-server/
 
 ## 여러 인스턴스 실행
 
-여러 모델을 동시에 서빙하려면 [MULTI_INSTANCE_GUIDE.md](MULTI_INSTANCE_GUIDE.md)를 참조하세요.
+여러 모델을 동시에 서빙하려면 [MULTI_INSTANCE_GUIDE.md](./GUIDELINE/MULTI_INSTANCE_GUIDE.md)를 참조하세요.
 
