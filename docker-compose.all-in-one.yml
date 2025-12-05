@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # All-in-One: Ollama + FastAPI 서버
+  gpu-llm-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.all-in-one
+    container_name: gpu-llm-server
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - OLLAMA_BASE_URL=http://127.0.0.1:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-exaone3.5:latest}
+      - HOST=0.0.0.0
+      - PORT=8001
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "8001:8001"
+      - "11434:11434"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  ollama_data:
+    driver: local
+

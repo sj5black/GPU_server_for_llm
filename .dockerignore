@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# 환경 변수
+.env
+.env.local
+.env.*.local
+
+# 로그
+*.log
+server.log
+server.pid
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# 문서
+*.md
+GUIDELINE/
+
+# 기타
+.DS_Store
+*.pid
+nohup.out
+

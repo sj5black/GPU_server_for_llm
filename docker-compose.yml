@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Ollama 서비스 (LLM 엔진)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: gpu-llm-ollama
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - OLLAMA_HOST=0.0.0.0:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # FastAPI 서버 (API Gateway)
+  api-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: gpu-llm-api
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-exaone3.5:latest}
+      - HOST=0.0.0.0
+      - PORT=8001
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+    networks:
+      - llm-network
+
+volumes:
+  ollama_data:
+    driver: local
+
+networks:
+  llm-network:
+    driver: bridge
+
